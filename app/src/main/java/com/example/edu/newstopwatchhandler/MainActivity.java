@@ -11,8 +11,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textViewTime;
     Button btnStart, btnPause, btnReset;
-    Handler handler;
-    Long startTime, millisecondTime, updateTime, timeBuff;
+    Handler handler = new Handler();
+    Long startTime, millisecondTime, updateTime, timeBuff=0l;
     int seconds, minuts, milliSeconds;
 
     @Override
@@ -28,22 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnReset = findViewById(R.id.btnReset);
         btnReset.setOnClickListener(this);
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-
-            case R.id.btnStart:
-                startTime = SystemClock.uptimeMillis();
-                handler.postDelayed(runnable,0);
-                break;
-            case R.id.btnPause:
-                break;
-            case R.id.btnReset:
-                break;
-        }
-
-    }
     public Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -54,6 +38,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             seconds = seconds %60;
             milliSeconds = (int)(updateTime %1000);
             textViewTime.setText(minuts +":"+ String.format("%02d", seconds) +":"+ String.format("%03d",milliSeconds));
+            handler.postDelayed(this,0);
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.btnStart:
+                startTime = SystemClock.uptimeMillis();
+                handler.postDelayed(runnable,0);
+                break;
+            case R.id.btnPause:
+                timeBuff += millisecondTime;
+                handler.removeCallbacks(runnable);
+                break;
+            case R.id.btnReset:
+                break;
+        }
+
+    }
+
 }

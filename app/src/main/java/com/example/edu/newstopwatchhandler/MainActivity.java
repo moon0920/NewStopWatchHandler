@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             milliSeconds = (int)(updateTime %1000);
             textViewTime.setText(minuts +":"+ String.format("%02d", seconds) +":"+ String.format("%03d",milliSeconds));
             handler.postDelayed(this,0);
+
+//            SimpleDateFormat formatter = new SimpleDateFormat("mm : ss : SSS");
+//            textViewTimer.setText(formatter.format(updateTime)); 다른출력 예제
         }
     };
 
